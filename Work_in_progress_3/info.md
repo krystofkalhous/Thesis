@@ -1,0 +1,1 @@
+-firms ask for local credit first
