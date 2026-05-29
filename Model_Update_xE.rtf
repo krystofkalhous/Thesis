@@ -1,0 +1,47 @@
+{\rtf1\ansi\ansicpg1250\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 ## [Date] \'97 xE fix: alphaParameterSmooth16 \uc0\u8594  alphaParameterSmooth17\
+\
+### What was changed\
+`firm.py`, `learning()` method: switched call from\
+`self.mind.alphaParameterSmooth16(...)` to `self.mind.alphaParameterSmooth17(...)`\
+\
+### Why\
+alphaParameterSmooth16 incorrectly revised xE downward when supply was\
+the binding constraint (paper Eq.14 requires holding xE constant).\
+This caused a continuous xE ratchet keeping nWorkerDesired >> 500.\
+alphaParameterSmooth17 implements the correct logic and removes the\
+theoretically unjustified 0.85 production smoothing term.\
+\
+### Key moments (t=800-1000, 11 MC runs)\
+| Variable | xE fix | prev | CE9 |\
+|---|---|---|---|\
+| Unemployment | 16.1% | 18.3% | 10.95% |\
+| Debt/GDP | 148.8% | 128.2% | 122.1% |\
+| Loans/GDP | 87.8% | 47.4% | 77.5% |\
+| Wage share | 75.7% | 57.6% | 71.7% |\
+| GDP growth (qtrly%) | 0.569 | 0.576 | 0.620 |\
+| Productivity growth (qtrly%) | 0.243 | 0.249 | 0.286 |\
+| Mean |\uc0\u916 u| | 3.85pp | 5.95pp | 5.16pp |\
+| 95th |\uc0\u916 u| | 9.3pp | 14.9pp | 13.0pp |\
+| nFirm | 205 | 129 | 134 |\
+| nWorkerDesired | 937 | 666 | 799 |\
+| Neg unemployment | 0 | 0 | 188 |\
+\
+### Interpretation\
+Major improvement in labour market stability (jumpiness halved).\
+Wage share and loans/GDP recovered to plausible levels.\
+nWorkerDesired increased (not decreased) because removing the 0.85\
+production smoothing makes xProducing more aggressive. Unemployment\
+and debt/GDP remain above target \'97 recalibration needed.\
+Trajectories are stable \'97 model has a genuine attractor.\
+Cross-run CV on wage share = 0.037 (very tight).\
+\
+### Status\
+\uc0\u9888 \u65039  Fix applied and working. Recalibration required.\
+Next: reduce upsilon2 toward 0.75, then adjust iota.}
